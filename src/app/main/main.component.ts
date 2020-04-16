@@ -10,16 +10,15 @@ declare const PDFJS: any;
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements OnInit, OnDestroy {
-  private layer: paper.Layer;
   private project: paper.Project
-  private raster: paper.Raster;
+  public raster: paper.Raster;
   private markerStroke = 1;
 
-  private coordinates: any = {};
+  public coordinates: any = {};
 
   public latitude: string;
   public longitude: string;
-  private pointNumber: number = 1;
+  public pointNumber: number = 1;
 
   public downloadUrl: any = '';
   public downloadImageUrl: any = '';
@@ -33,9 +32,7 @@ export class MainComponent implements OnInit, OnDestroy {
   ngOnInit() {
     window['paper'] = paper;
 
-    // new paper.Project('hiddenCanvas');
     this.project = new paper.Project('main');
-    this.layer = this.project.activeLayer;
 
     var toolPan = new paper.Tool()
     toolPan.activate()
