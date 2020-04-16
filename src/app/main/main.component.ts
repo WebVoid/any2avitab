@@ -62,6 +62,7 @@ export class MainComponent implements OnInit, OnDestroy {
           this.latitude = '';
           this.longitude = '';
           $('#coordinatesModal').modal('show');
+          $('#input_latitude').focus();
 
           window.scroll();
         }

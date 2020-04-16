@@ -34,11 +34,11 @@
       <div class="modal-body">
         <div class="form-group">
           Latitude:
-          <input class="form-control" [(ngModel)]="latitude" />
+          <input class="form-control" type="text" [(ngModel)]="latitude" id="input_latitude" />
         </div>
         <div class="form-group">
           Longitude:
-          <input class="form-control" [(ngModel)]="longitude" />
+          <input class="form-control" type="text" [(ngModel)]="longitude" id="input_longitude" />
         </div>
       </div>
       <div class="modal-footer">
@@ -86,7 +86,7 @@
         <p><strong>IMPORTANT IF WORKING WITH PDF</strong></p>
         <p>When working with pdf with Avitab and this service, you have two solutions:</p>
         <ol>
-          <li><strong>Keep the original pdf page to open in Avitab</strong>: this will grand you the ability to zoom as you wish, most of the time without deformation. In this case, and when prompted, <strong>do not edit the PDF import zoom factor</strong></li>
+          <li><strong>Keep the original pdf page to open in Avitab</strong>: this will grand you the ability to zoom without quality loss. In this case, and when prompted, <strong>do not edit the PDF import zoom factor, left it at 1.0</strong></li>
           <li><strong>Use the service to extract a page from the pdf as an image</strong>: in this case, you can select a PDF import zoom factor when asked. It will permit you to have a higher quality exported image and also a more precise flight-to-image tracking. In this case tho, you shall not forget to export the generated image using the <code>Save current image</code> button (bottom left corner), and to rename the exported JSON to match the <code>name_of_the_exported_image_WITH_EXTENSION<strong>.json</strong></code></li>
         </ol>
 
