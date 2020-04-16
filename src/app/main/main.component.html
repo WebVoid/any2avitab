@@ -1,0 +1,86 @@
+<div id="main-container">
+  <canvas id="main" resize></canvas>
+</div>
+
+<div id="toolbar">
+  Setting point {{ pointNumber }} -
+  <input type="file" (change)="onFileChanged($event)" />
+  <button class="btn btn-primary" data-toggle="modal" data-target="#helpModal">Help me !</button>
+</div>
+
+<div id="dumper">
+  <pre>{{ dumpedCoordinates }}</pre>
+  <input type="button" value="Clear" (click)="coordinates = {}" class="btn btn-secondary" />
+  <!-- <input type="button" value="Save" (click)="save()" class="btn btn-success float-right" /> -->
+  <a class="float-right" [download]="importedFileName + '.json'" [href]="downloadUrl" *ngIf="downloadUrl"><button class="btn btn-success">Save</button></a>
+</div>
+
+<div class="modal" id="coordinatesModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Enter coordinates</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          Latitude:
+          <input class="form-control" [(ngModel)]="latitude" />
+        </div>
+        <div class="form-group">
+          Longitude:
+          <input class="form-control" [(ngModel)]="longitude" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="validateCoordinates()">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="version">Anything2Avitab v{{ VERSION }}</div>
+
+<div class="modal" id="helpModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Help</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h3>Here is how to use this service:</h3>
+        <ol>
+          <li>Load in a pdf or image using the top right menu (loaded files have to be north oriented upward)</li>
+          <li>Click on a point of the loaded file (you can zoom using scroll and move dragging the document)</li>
+          <li>Enter latitude & longitude of the clicked point (refer to the "Input formats" section below)</li>
+          <li>Repeat with a second point</li>
+          <li>Click the "Save" button (bottom right) and save the file in the same folder as your image using the <strong>exact</strong> same name as the original document with just <code>.json</code> after it</li>
+          <li>Place both the image and the json file in your <code>X-Plane\Resources\plugins\AviTab\MapTiles\Mercator\</code> folder (it can be in any subfolder level for organization, for example Mercator\LFMT\Approach\)</li>
+        </ol>
+        Now in Avitab:
+        <ol>
+          <li>Go to the <code>Map</code> section</li>
+          <li>Click the top right menu icon</li>
+          <li>Go to the <code>Mercator</code> menu</li>
+          <li>Load in your file</li>
+        </ol>
+        At this step, you SHOULD see your map with your plane on it (bold red drawed). If you don't, click the top right arrowy icon. This should activate Plane Tracking.<br />
+        <br />
+        Please report <strong>ANY</strong> bug on the X-Plane forum thread (&lt;link goes here&gt;) with at least:
+        <ul>
+          <li>Used browser</li>
+          <li>The document you're trying to load</li>
+          <li>The interface version (bottom left corner)</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
