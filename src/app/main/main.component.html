@@ -17,6 +17,9 @@
   <input type="button" value="Clear" (click)="coordinates = {}" class="btn btn-secondary" />
   <!-- <input type="button" value="Save" (click)="save()" class="btn btn-success float-right" /> -->
   <a class="float-right" [download]="importedFileName + '.json'" [href]="downloadUrl" *ngIf="downloadUrl"><button class="btn btn-success">Save</button></a>
+  <div *ngIf="raster" class="top-6">
+    <a class="float-right" [download]="importedFileName + '.png'" [href]="downloadImageUrl" *ngIf="downloadImageUrl"><button class="btn btn-primary">Save current image</button></a>
+  </div>
 </div>
 
 <div class="modal" id="coordinatesModal" tabindex="-1" role="dialog">

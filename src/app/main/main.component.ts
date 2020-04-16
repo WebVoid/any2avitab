@@ -22,12 +22,11 @@ export class MainComponent implements OnInit, OnDestroy {
   private pointNumber: number = 1;
 
   public downloadUrl: any = '';
+  public downloadImageUrl: any = '';
   public importedFileName = '';
 
   public VERSION = '0.8';
   public zoom = 100;
-
-  public pdfImportViewport = 2;
 
   constructor(private sanitizer: DomSanitizer, private zone: NgZone) { }
 
@@ -141,6 +140,10 @@ export class MainComponent implements OnInit, OnDestroy {
       if (this.raster) {
         this.raster.remove();
       }
+
+      this.project.view.zoom = 1;
+      this.zoom = 100;
+
       this.importedFileName = file.name;
       switch(file.type) {
         case 'application/pdf':
@@ -151,18 +154,27 @@ export class MainComponent implements OnInit, OnDestroy {
               if (!doc) {
                 return alert('Cannot load PDF file');
               }
+
+              let pageToRender = 1;
               if (doc.numPages !== 1) {
-                return alert('Only supports one paged PDF, please extract the page you want to use as a reference');
+                pageToRender = parseInt(window.prompt('PDF page to render', '1'));
+                if (isNaN(pageToRender)) {
+                  pageToRender = 1;
+                }
               }
 
-              doc.getPage(1).then(page => {
-                this.pdfImportViewport = parseFloat(window.prompt('PDF import zooming (the more, the highest quality)', '1.0'));
-                const viewport = page.getViewport(this.pdfImportViewport);
+              doc.getPage(pageToRender).then(page => {
+                let pdfImportViewport = parseFloat(window.prompt('PDF import zooming (the more, the highest quality)', '1.0'));
+                if (isNaN(pdfImportViewport)) {
+                  pdfImportViewport = 1.0;
+                }
+
+                const viewport = page.getViewport(pdfImportViewport);
                 const canvas: any = document.getElementById('hiddenCanvas');
                 const context = canvas.getContext('2d');
                 $(canvas)
-                  .attr({ width: page.view[2] * this.pdfImportViewport, height: page.view[3] * this.pdfImportViewport })
-                  .css({ width: page.view[2] * this.pdfImportViewport, height: page.view[3] * this.pdfImportViewport });
+                  .attr({ width: page.view[2] * pdfImportViewport, height: page.view[3] * pdfImportViewport })
+                  .css({ width: page.view[2] * pdfImportViewport, height: page.view[3] * pdfImportViewport });
                 page.render({
                   canvasContext: context,
                   viewport: viewport
@@ -173,6 +185,7 @@ export class MainComponent implements OnInit, OnDestroy {
                     position: paper.view.center
                   } as any));
                   this.raster.sendToBack();
+                  this.makeDownloadImageLink();
                 });
               })
             });
@@ -188,6 +201,7 @@ export class MainComponent implements OnInit, OnDestroy {
               position: paper.view.center
             } as any));
             this.raster.sendToBack();
+            this.makeDownloadImageLink();
           }
           reader.readAsDataURL(file);
           break;
@@ -201,5 +215,18 @@ export class MainComponent implements OnInit, OnDestroy {
 
   get dumpedCoordinates() {
     return JSON.stringify({ calibration: this.coordinates }, null, 2);
+  }
+
+  private makeDownloadImageLink() {
+    if (this.raster) {
+      setTimeout(() => {
+        const canvas = this.raster.getSubCanvas(new paper.Rectangle(new paper.Point(0, 0), new paper.Point(this.raster.width, this.raster.height)));
+        canvas.toBlob((data) => {
+          const blob = new Blob([data], { type: 'image/png' });
+          this.downloadImageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
+          this.zone.run(() => {});
+        });
+      }, 100);
+    }
   }
 }
