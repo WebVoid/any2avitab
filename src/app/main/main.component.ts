@@ -49,7 +49,7 @@ export class MainComponent implements OnInit, OnDestroy {
       point = new paper.Point(e.event.clientX, e.event.clientY);
     }
     this.project.view.onMouseUp = (e) => {
-      if (this.raster) {
+      if (e.event.button == 0 && this.raster) {
         if (point.equals(new paper.Point(e.event.clientX, e.event.clientY))) {
           let local = this.raster.globalToLocal(e.point);
           local = local.add(new paper.Point(this.raster.width / 2, this.raster.height / 2));
