@@ -51,7 +51,7 @@
 <div id="version">Anything2Avitab v{{ VERSION }}</div>
 
 <div class="modal" id="helpModal" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-lg" role="document">
+  <div class="modal-dialog modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Help</h5>
@@ -82,6 +82,14 @@
           <li>Decimal: 16.2, 2.5, 6.50, 13.05</li>
           <li>Degrees: 13°30', 13°, 13°30</li>
         </ul>
+
+        <p><strong>IMPORTANT IF WORKING WITH PDF</strong></p>
+        <p>When working with pdf with Avitab and this service, you have two solutions:</p>
+        <ol>
+          <li><strong>Keep the original pdf page to open in Avitab</strong>: this will grand you the ability to zoom as you wish, most of the time without deformation. In this case, and when prompted, <strong>do not edit the PDF import zoom factor</strong></li>
+          <li><strong>Use the service to extract a page from the pdf as an image</strong>: in this case, you can select a PDF import zoom factor when asked. It will permit you to have a higher quality exported image and also a more precise flight-to-image tracking. In this case tho, you shall not forget to export the generated image using the <code>Save current image</code> button (bottom left corner), and to rename the exported JSON to match the <code>name_of_the_exported_image_WITH_EXTENSION<strong>.json</strong></code></li>
+        </ol>
+
         Please report <strong>ANY</strong> bug on the X-Plane forum thread (&lt;link goes here&gt;) with at least:
         <ul>
           <li>Used browser</li>

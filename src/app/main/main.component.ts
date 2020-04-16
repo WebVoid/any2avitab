@@ -164,7 +164,7 @@ export class MainComponent implements OnInit, OnDestroy {
               }
 
               doc.getPage(pageToRender).then(page => {
-                let pdfImportViewport = parseFloat(window.prompt('PDF import zooming (the more, the highest quality)', '1.0'));
+                let pdfImportViewport = parseFloat(window.prompt('PDF import zoom factor (the more, the highest quality)', '1.0'));
                 if (isNaN(pdfImportViewport)) {
                   pdfImportViewport = 1.0;
                 }
