@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
 import * as paper from 'paper';
 import { DomSanitizer } from '@angular/platform-browser';
 declare const $: any;
+declare const PDFJS: any;
 
 @Component({
   selector: 'app-main',
@@ -24,12 +25,16 @@ export class MainComponent implements OnInit, OnDestroy {
   public importedFileName = '';
 
   public VERSION = '0.8';
+  public zoom = 100;
+
+  public pdfImportViewport = 2;
 
   constructor(private sanitizer: DomSanitizer, private zone: NgZone) { }
 
   ngOnInit() {
     window['paper'] = paper;
 
+    // new paper.Project('hiddenCanvas');
     this.project = new paper.Project('main');
     this.layer = this.project.activeLayer;
 
@@ -86,6 +91,7 @@ export class MainComponent implements OnInit, OnDestroy {
           this.project.view.zoom -= 0.1;
         }
       }
+      this.zoom = Math.round(this.project.view.zoom * 100);
 
       horizontalLine.strokeWidth = this.markerStroke / this.project.view.zoom;
       verticalLine.strokeWidth = this.markerStroke / this.project.view.zoom;
@@ -140,10 +146,38 @@ export class MainComponent implements OnInit, OnDestroy {
         case 'application/pdf':
           console.log('Trying to load in PDF');
           var reader = new FileReader();
-          reader.onloadend = function (e) {
-            console.log(reader.result);
+          reader.onloadend = (e) => {
+            PDFJS.getDocument(reader.result).then(doc => {
+              if (!doc) {
+                return alert('Cannot load PDF file');
+              }
+              if (doc.numPages !== 1) {
+                return alert('Only supports one paged PDF, please extract the page you want to use as a reference');
+              }
+
+              doc.getPage(1).then(page => {
+                this.pdfImportViewport = parseFloat(window.prompt('PDF import zooming (the more, the highest quality)', '1.0'));
+                const viewport = page.getViewport(this.pdfImportViewport);
+                const canvas: any = document.getElementById('hiddenCanvas');
+                const context = canvas.getContext('2d');
+                $(canvas)
+                  .attr({ width: page.view[2] * this.pdfImportViewport, height: page.view[3] * this.pdfImportViewport })
+                  .css({ width: page.view[2] * this.pdfImportViewport, height: page.view[3] * this.pdfImportViewport });
+                page.render({
+                  canvasContext: context,
+                  viewport: viewport
+                }).then(() => {
+                  const data = canvas.toDataURL('image/png');
+                  this.raster = new paper.Raster(({
+                    source: data,
+                    position: paper.view.center
+                  } as any));
+                  this.raster.sendToBack();
+                });
+              })
+            });
           }
-          reader.readAsBinaryString(file);
+          reader.readAsArrayBuffer(file);
           break;
         case 'image/png':
           console.log('Trying to load in png');

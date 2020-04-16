@@ -1,9 +1,11 @@
 <div id="main-container">
+  <canvas id="hiddenCanvas" resize></canvas>
   <canvas id="main" resize></canvas>
 </div>
 
+
 <div id="toolbar">
-  Setting point {{ pointNumber }} -
+  Setting point {{ pointNumber }} - Zoom {{ zoom }}% -
   <input type="file" (change)="onFileChanged($event)" />
   <div class="spacer-36"></div>
   <button class="btn btn-primary" data-toggle="modal" data-target="#helpModal">How to use</button>&nbsp;&nbsp;
