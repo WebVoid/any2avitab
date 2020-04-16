@@ -121,8 +121,7 @@ export class MainComponent implements OnInit, OnDestroy {
     this.longitude = null;
 
     if (this.pointNumber == 2) {
-      const data = JSON.stringify(Object.assign({}, this.dumpedCoordinates));
-      const blob = new Blob([data], { type: 'application/octet-stream' });
+      const blob = new Blob([this.dumpedCoordinates], { type: 'application/octet-stream' });
       this.downloadUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
     }
 
