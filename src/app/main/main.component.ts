@@ -103,12 +103,7 @@ export class MainComponent implements OnInit, OnDestroy {
       } else if (c.match(/^\d+°(( )?\d+(')?)?$/)) {
         console.log(coord + ' matches radial format');
         const degrees = parseInt(c.split('°')[0]);
-        let minutes = c.split('°')[1];
-        minutes = minutes.match(/(\d+)/)[1];
-        if (minutes.length == 1) {
-          minutes = minutes + '0';
-        }
-        const fMinutes = parseInt(minutes);
+        const fMinutes = parseInt(c.split('°')[1]);
         const decimal = (fMinutes / 60) * 100;
         const final = degrees + (decimal / 100);
         this.coordinates[coord + this.pointNumber] = final;

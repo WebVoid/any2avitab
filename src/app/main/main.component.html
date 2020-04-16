@@ -5,7 +5,9 @@
 <div id="toolbar">
   Setting point {{ pointNumber }} -
   <input type="file" (change)="onFileChanged($event)" />
-  <button class="btn btn-primary" data-toggle="modal" data-target="#helpModal">Help me !</button>
+  <div class="spacer-36"></div>
+  <button class="btn btn-primary" data-toggle="modal" data-target="#helpModal">How to use</button>&nbsp;&nbsp;
+  <a href="https://www.buymeacoffee.com/Webvoid" target="_blank" rel="noopener noreferer"><button class="btn btn-success">Buy me a cofee !</button></a>
 </div>
 
 <div id="dumper">
@@ -69,8 +71,12 @@
           <li>Go to the <code>Mercator</code> menu</li>
           <li>Load in your file</li>
         </ol>
-        At this step, you SHOULD see your map with your plane on it (bold red drawed). If you don't, click the top right arrowy icon. This should activate Plane Tracking.<br />
-        <br />
+        <p>At this step, you SHOULD see your map with your plane on it (bold red drawed). If you don't, click the top right arrowy icon. This should activate Plane Tracking.</p>
+        <strong>Supported input formats</strong>
+        <ul>
+          <li>Decimal: 16.2, 2.5, 6.50, 13.05</li>
+          <li>Degrees: 13°30', 13°, 13°30</li>
+        </ul>
         Please report <strong>ANY</strong> bug on the X-Plane forum thread (&lt;link goes here&gt;) with at least:
         <ul>
           <li>Used browser</li>

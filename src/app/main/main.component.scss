@@ -46,3 +46,10 @@ canvas {
   background-color: #333;
   padding: 6px 12px;
 }
+
+[class^="spacer"] {
+  display: inline-block;
+}
+.spacer-36 {
+  width: 36px;
+}
