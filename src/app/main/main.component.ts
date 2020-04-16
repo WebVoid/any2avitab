@@ -157,17 +157,17 @@ export class MainComponent implements OnInit, OnDestroy {
 
               let pageToRender = 1;
               if (doc.numPages !== 1) {
-                pageToRender = parseInt(window.prompt('PDF page to render', '1'));
-                if (isNaN(pageToRender)) {
-                  pageToRender = 1;
-                }
+                pageToRender = -1;
+                do {
+                  pageToRender = parseInt(window.prompt('PDF page to render', '1'));
+                } while (isNaN(pageToRender) || pageToRender < 1 || pageToRender > doc.numPages);
               }
 
               doc.getPage(pageToRender).then(page => {
-                let pdfImportViewport = parseFloat(window.prompt('PDF import zoom factor (the more, the highest quality)', '1.0'));
-                if (isNaN(pdfImportViewport)) {
-                  pdfImportViewport = 1.0;
-                }
+                let pdfImportViewport = -1;
+                do {
+                  pdfImportViewport = parseFloat(window.prompt('PDF import zoom factor (the more, the highest quality)', '1.0'));
+                } while(isNaN(pdfImportViewport) || pdfImportViewport < 0.2)
 
                 const viewport = page.getViewport(pdfImportViewport);
                 const canvas: any = document.getElementById('hiddenCanvas');
